@@ -1,0 +1,28 @@
+
+/*
+    Enter your query here and follow these instructions:
+    1. Please append a semicolon ";" at the end of the query and enter your query in a single line to avoid error.
+    2. The AS keyword causes errors, so follow this convention: "Select t.Field From table1 t" instead of "select t.Field From table1 AS t"
+    3. Type your code immediately after comment. Don't leave any blank line.
+*/
+SELECT 
+    c.company_code,
+    c.founder,
+    COUNT(DISTINCT l.lead_manager_code) AS total_lead_managers,
+    COUNT(DISTINCT s.senior_manager_code) AS total_senior_managers,
+    COUNT(DISTINCT m.manager_code) AS total_managers,
+    COUNT(DISTINCT e.employee_code) AS total_employees
+FROM 
+    Company c
+LEFT JOIN 
+    Lead_Manager l ON c.company_code = l.company_code
+LEFT JOIN 
+    Senior_Manager s ON l.lead_manager_code = s.lead_manager_code
+LEFT JOIN 
+    Manager m ON s.senior_manager_code = m.senior_manager_code
+LEFT JOIN 
+    Employee e ON m.manager_code = e.manager_code
+GROUP BY 
+    c.company_code, c.founder
+ORDER BY 
+    c.company_code;
